@@ -1,0 +1,19 @@
+{
+  "plugins": [
+    "import",
+    "jest"
+  ],
+  "extends": [
+    "airbnb-base",
+    "plugin:jest/recommended"
+  ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true,
+    "jest/globals": true
+  },
+  "rules": {
+    "no-console": "off"
+  }
+}
