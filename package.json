@@ -1,7 +1,7 @@
 {
-  "name": "todo-app-backend",
+  "name": "package-sorter-backend",
   "version": "1.0.0",
-  "description": "Demonstration of Todo application behavior by using Restful APIs",
+  "description": "Backbone for scan barcodes on packages and instantly know specific package details more effectively.",
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run build && node dist/index.js",
@@ -11,12 +11,11 @@
     "watch": "nodemon -e js --watch src --exec \"npm run start\""
   },
   "keywords": [
-    "Todo Application",
-    "Todo Maker"
+    "Package Sorter"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aravindakr95/todo-app-backend.git"
+    "url": "git+https://github.com/aravindakr95/package-sorter-backend.git"
   },
   "author": {
     "name": "Aravinda Rathnayake",
@@ -28,9 +27,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aravindakr95/todo-app-backend/issues"
+    "url": "https://github.com/aravindakr95/package-sorter-backend/issues"
   },
-  "homepage": "https://github.com/aravindakr95/todo-app-backend#readme",
+  "homepage": "https://github.com/aravindakr95/package-sorter-backend#readme",
   "dependencies": {
     "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.1",
