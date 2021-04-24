@@ -21,7 +21,7 @@ const config = {
     saltRounds: 10,
   },
   deployment: {
-    host: '127.0.0.1', // DEMONSTRATION PURPOSES ONLY
+    host: process.env.HOST || '127.0.0.1', // DEMONSTRATION PURPOSES ONLY
     port: process.env.PORT || 5000,
   },
 };
