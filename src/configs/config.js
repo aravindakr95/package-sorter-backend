@@ -22,7 +22,7 @@ const config = {
   },
   deployment: {
     host: process.env.HOST || '127.0.0.1', // DEMONSTRATION PURPOSES ONLY
-    port: process.env.PORT || 5000,
+    port: process.env.PORT || 3000,
   },
 };
 
