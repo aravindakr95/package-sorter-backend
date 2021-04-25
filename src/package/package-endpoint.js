@@ -12,7 +12,7 @@ export default function makePackageEndPointHandler({ packageList }) {
           return pkg;
         }
       })
-      console.log(filterPackages)
+
       await packageList.insertPackages(filterPackages).catch((error) => {
         throw customException(error.message);
       });
