@@ -8,7 +8,7 @@ export default function makePackageEndPointHandler({ packageList }) {
     try {
       const packages = httpRequest.body;
       const filterPackages = packages.map((pkg) => {
-        if (pkg.lastScan !== '' || pkg.seqNo !== '' || pkg.nameAndAddress !== '') {
+        if (pkg.lastScan !== '' && pkg.seqNo !== '' && pkg.nameAndAddress !== '') {
           return pkg;
         }
       })
