@@ -17,11 +17,11 @@ const packageSchema = new PackageSchema({
   },
   seqNo: {
     type: String,
-    required: true,
+    default: 'N/A', // todo: not working
   },
   nameAndAddress: {
     type: String,
-    required: true,
+    default: 'N/A', // todo: not working
   },
 });
 
