@@ -7,11 +7,12 @@ export default function makePackageEndPointHandler({ packageList }) {
   async function addPackages(httpRequest) {
     try {
       const packages = httpRequest.body;
-      const filterPackages = packages.map((pkg) => {
-        if (pkg.lastScan !== '' && pkg.seqNo !== '' && pkg.nameAndAddress !== '') {
+      const filterPackages = packages.filter((pkg) => {
+        if (pkg.barcode !== '' && pkg.lastScan !== '' && pkg.seqNo !== '' && pkg.nameAndAddress !== '') {
           return pkg;
         }
       })
+      console.log(filterPackages)
       await packageList.insertPackages(filterPackages).catch((error) => {
         throw customException(error.message);
       });
