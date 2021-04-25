@@ -22,7 +22,7 @@ const userSchema = new UserSchema({
     required: true,
     minlength: 8,
   },
-});
+}, { versionKey: false });
 
 const User = model('User', userSchema, 'users');
 

@@ -23,7 +23,7 @@ const packageSchema = new PackageSchema({
     type: String,
     default: 'N/A', // todo: not working
   },
-});
+}, { versionKey: false });
 
 const Package = model('Package', packageSchema, 'packages');
 
