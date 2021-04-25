@@ -7,9 +7,12 @@ export default function makePackageEndPointHandler({ packageList }) {
   async function addPackages(httpRequest) {
     try {
       const packages = httpRequest.body;
-      console.log(packages)
-      await packageList.insertPackages(packages).catch((error) => {
-        console.log(error)
+      const filterPackages = packages.map((pkg) => {
+        if (pkg.lastScan !== '' || pkg.seqNo !== '' || pkg.nameAndAddress !== '') {
+          return pkg;
+        }
+      })
+      await packageList.insertPackages(filterPackages).catch((error) => {
         throw customException(error.message);
       });
 
@@ -30,8 +33,6 @@ export default function makePackageEndPointHandler({ packageList }) {
       const packageDetails = await packageList.findPackageByBarcode({ barcode }).catch((error) => {
         throw customException(error.message);
       });
-
-      console.log(packageDetails)
 
       return objectHandler({
         status: HttpResponseType.SUCCESS,
