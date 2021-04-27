@@ -8,10 +8,10 @@ export default function makePackageEndPointHandler({ packageList }) {
     try {
       const packages = httpRequest.body;
       const filterPackages = packages.filter((pkg) => {
-        if (pkg.barcode !== '' && pkg.lastScan !== '' && pkg.seqNo !== '' && pkg.nameAndAddress !== '') {
+        if (pkg.barcode !== '' && pkg.seqNo !== '') {
           return pkg;
         }
-      })
+      });
 
       await packageList.insertPackages(filterPackages).catch((error) => {
         throw customException(error.message);
