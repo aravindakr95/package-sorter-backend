@@ -7,6 +7,10 @@ const packageSchema = new PackageSchema({
     type: Number,
     default: Date.now,
   },
+  userId: {
+    type: String,
+    required: true,
+  },
   barcode: {
     type: String,
     required: true,

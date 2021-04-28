@@ -5,22 +5,22 @@ export default function makePackageList() {
     return Package.insertMany(data);
   }
 
-  function findPackageByBarcode(barcode) {
-    return Package.findOne(barcode);
+  function findPackageByBarcode(userId, barcode) {
+    return Package.findOne({ userId, barcode });
   }
 
-  function findAllPackages() {
-    return Package.find();
+  function findAllPackages(userId) {
+    return Package.find({ userId });
   }
 
-  function deleteAllPackages() {
-    return Package.remove();
+  function deleteAllPackages(userId) {
+    return Package.remove({ userId });
   }
 
   return Object.freeze({
     insertPackages,
     findPackageByBarcode,
     findAllPackages,
-    deleteAllPackages
+    deleteAllPackages,
   });
 }

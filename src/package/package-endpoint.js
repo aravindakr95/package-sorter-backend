@@ -2,11 +2,15 @@ import HttpResponseType from '../enums/http/http-response-type';
 
 import customException from '../helpers/utilities/custom-exception';
 import { objectHandler } from '../helpers/utilities/normalize-request';
+import defaultRouteHandler from '../helpers/http/default-route-handler';
+
+import HttpMethod from '../enums/http/http-method';
 
 export default function makePackageEndPointHandler({ packageList }) {
   async function addPackages(httpRequest) {
     try {
       const packages = httpRequest.body;
+
       const filterPackages = packages.filter((pkg) => {
         if (pkg.barcode !== '') {
           return pkg;
@@ -19,11 +23,10 @@ export default function makePackageEndPointHandler({ packageList }) {
 
       return objectHandler({
         status: HttpResponseType.SUCCESS,
-        message: `Package details added successful`,
+        message: 'Package details added successful',
       });
     } catch (error) {
       const { code, message } = error;
-
       return objectHandler({ code, message });
     }
   }
@@ -31,7 +34,8 @@ export default function makePackageEndPointHandler({ packageList }) {
   async function getPackage(httpRequest) {
     try {
       const { barcode } = httpRequest.queryParams;
-      const packageDetails = await packageList.findPackageByBarcode({ barcode }).catch((error) => {
+      const { userId } = httpRequest.pathParams;
+      const packageDetails = await packageList.findPackageByBarcode(userId, barcode).catch((error) => {
         throw customException(error.message);
       });
 
@@ -42,55 +46,60 @@ export default function makePackageEndPointHandler({ packageList }) {
       });
     } catch (error) {
       const { code, message } = error;
-
       return objectHandler({ code, message });
     }
   }
 
-  async function getAllPackages() {
+  async function getAllPackages(httpRequest) {
     try {
-      const packageDetails = await packageList.findAllPackages().catch((error) => {
+      const { userId } = httpRequest.pathParams;
+      const packageDetails = await packageList.findAllPackages(userId).catch((error) => {
         throw customException(error.message);
       });
 
       return objectHandler({
         status: HttpResponseType.SUCCESS,
         data: packageDetails,
-        message: `Packages detail retrieval successful`,
+        message: 'Packages detail retrieval successful',
       });
     } catch (error) {
       const { code, message } = error;
-
       return objectHandler({ code, message });
     }
   }
 
-  async function deletePackages() {
+  async function deletePackages(httpRequest) {
     try {
-      await packageList.deleteAllPackages().catch((error) => {
+      const { userId } = httpRequest.pathParams;
+      await packageList.deleteAllPackages(userId).catch((error) => {
         throw customException(error.message);
       });
 
       return objectHandler({
         status: HttpResponseType.SUCCESS,
-        message: `Packages removal successful`,
+        message: 'Packages removal successful',
       });
     } catch (error) {
       const { code, message } = error;
-
       return objectHandler({ code, message });
     }
   }
 
   return async function handle(httpRequest) {
-    switch (httpRequest.path) {
-      case '/upload':
+    switch (httpRequest.method) {
+      case HttpMethod.POST:
         return addPackages(httpRequest);
-      case '/delete':
-        return deletePackages();
-      case '/':
-        return (httpRequest.queryParams && httpRequest.queryParams.barcode) ?
-            getPackage(httpRequest) : getAllPackages();
+      case HttpMethod.DELETE:
+        if (httpRequest.pathParams && httpRequest.pathParams.userId) {
+          return deletePackages(httpRequest);
+        }
+        return defaultRouteHandler();
+      case HttpMethod.GET:
+        if (httpRequest.pathParams && httpRequest.pathParams.userId) {
+          return (httpRequest.queryParams && httpRequest.queryParams.barcode)
+            ? getPackage(httpRequest) : getAllPackages(httpRequest);
+        }
+        return defaultRouteHandler();
       default:
         return objectHandler({
           code: HttpResponseType.METHOD_NOT_ALLOWED,
