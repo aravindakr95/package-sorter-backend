@@ -13,6 +13,10 @@ export default function makePackageList() {
     return Package.find({ userId });
   }
 
+  function updatePackageStatus(userId, barcode, isScanned) {
+    return Package.findOneAndUpdate({ userId, barcode }, { isScanned });
+  }
+
   function deleteAllPackages(userId) {
     return Package.remove({ userId });
   }
@@ -21,6 +25,7 @@ export default function makePackageList() {
     insertPackages,
     findPackageByBarcode,
     findAllPackages,
+    updatePackageStatus,
     deleteAllPackages,
   });
 }

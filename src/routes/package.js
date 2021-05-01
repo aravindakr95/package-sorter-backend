@@ -18,6 +18,12 @@ packageRouter.get('/:userId',
     packageController(req, res);
   });
 
+packageRouter.put('/:userId',
+  authenticateJWT,
+  (req, res) => {
+    packageController(req, res);
+  });
+
 packageRouter.delete('/:userId/delete',
   authenticateJWT,
   (req, res) => {

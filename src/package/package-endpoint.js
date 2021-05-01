@@ -68,6 +68,33 @@ export default function makePackageEndPointHandler({ packageList }) {
     }
   }
 
+  async function updatePackageStatus(httpRequest) {
+    try {
+      const { userId } = httpRequest.pathParams;
+      const { barcode } = httpRequest.queryParams;
+      const { isScanned } = httpRequest.body;
+
+      const result = await packageList.updatePackageStatus(userId, barcode, isScanned).catch((error) => {
+        throw customException(error.message);
+      });
+
+      if (result) {
+        return objectHandler({
+          status: HttpResponseType.SUCCESS,
+          message: `Packages status for barcode Id: '${barcode}' updated successful`,
+        });
+      }
+
+      throw customException(
+        `Package details for barcode Id '${barcode}' is not found`,
+        HttpResponseType.NOT_FOUND,
+      );
+    } catch (error) {
+      const { code, message } = error;
+      return objectHandler({ code, message });
+    }
+  }
+
   async function deletePackages(httpRequest) {
     try {
       const { userId } = httpRequest.pathParams;
@@ -89,6 +116,12 @@ export default function makePackageEndPointHandler({ packageList }) {
     switch (httpRequest.method) {
       case HttpMethod.POST:
         return addPackages(httpRequest);
+      case HttpMethod.PUT:
+        if (httpRequest.pathParams && httpRequest.pathParams.userId) {
+          return (httpRequest.queryParams && httpRequest.queryParams.barcode) ?
+            updatePackageStatus(httpRequest) : defaultRouteHandler();
+        }
+        return defaultRouteHandler()
       case HttpMethod.DELETE:
         if (httpRequest.pathParams && httpRequest.pathParams.userId) {
           return deletePackages(httpRequest);

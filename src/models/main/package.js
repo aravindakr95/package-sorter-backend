@@ -15,17 +15,21 @@ const packageSchema = new PackageSchema({
     type: String,
     required: true,
   },
+  isScanned: {
+    type: Boolean,
+    default: false,
+  },
   lastScan: {
     type: String,
-    default: 'N/A', // todo: not working
+    default: '',
   },
   seqNo: {
     type: String,
-    default: 'N/A', // todo: not working
+    default: '',
   },
   nameAndAddress: {
     type: String,
-    default: 'N/A', // todo: not working
+    default: '',
   },
 }, { versionKey: false });
 
