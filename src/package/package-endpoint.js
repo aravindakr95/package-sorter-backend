@@ -72,9 +72,9 @@ export default function makePackageEndPointHandler({ packageList }) {
     try {
       const { userId } = httpRequest.pathParams;
       const { barcode } = httpRequest.queryParams;
-      const { isScanned } = httpRequest.body;
+      const { scanStatus } = httpRequest.body;
 
-      const result = await packageList.updatePackageStatus(userId, barcode, isScanned).catch((error) => {
+      const result = await packageList.updatePackageStatus(userId, barcode, scanStatus).catch((error) => {
         throw customException(error.message);
       });
 

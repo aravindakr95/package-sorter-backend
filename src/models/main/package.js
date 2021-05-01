@@ -15,9 +15,10 @@ const packageSchema = new PackageSchema({
     type: String,
     required: true,
   },
-  isScanned: {
-    type: Boolean,
-    default: false,
+  scanStatus: {
+    type: String,
+    default: 'Pending',
+    enum: ['Pending', 'Complete'],
   },
   lastScan: {
     type: String,
