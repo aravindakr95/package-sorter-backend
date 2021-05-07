@@ -13,7 +13,7 @@ const packageSchema = new PackageSchema({
   },
   barcode: {
     type: String,
-    required: true,
+    default: '',
   },
   scanStatus: {
     type: String,

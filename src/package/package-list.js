@@ -13,7 +13,11 @@ export default function makePackageList() {
     return Package.find({ userId });
   }
 
-  function updatePackageStatus(userId, barcode, scanStatus) {
+  function updatePackageStatusById(userId, _id, scanStatus) {
+    return Package.findOneAndUpdate({ userId, _id }, { scanStatus });
+  }
+
+  function updatePackageStatusByBarcode(userId, barcode, scanStatus) {
     return Package.findOneAndUpdate({ userId, barcode }, { scanStatus });
   }
 
@@ -25,7 +29,8 @@ export default function makePackageList() {
     insertPackages,
     findPackageByBarcode,
     findAllPackages,
-    updatePackageStatus,
+    updatePackageStatusById,
+    updatePackageStatusByBarcode,
     deleteAllPackages,
   });
 }

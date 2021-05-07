@@ -10,14 +10,7 @@ export default function makePackageEndPointHandler({ packageList }) {
   async function addPackages(httpRequest) {
     try {
       const packages = httpRequest.body;
-
-      const filterPackages = packages.filter((pkg) => {
-        if (pkg.barcode !== '') {
-          return pkg;
-        }
-      });
-
-      await packageList.insertPackages(filterPackages).catch((error) => {
+      await packageList.insertPackages(packages).catch((error) => {
         throw customException(error.message);
       });
 
@@ -68,13 +61,40 @@ export default function makePackageEndPointHandler({ packageList }) {
     }
   }
 
-  async function updatePackageStatus(httpRequest) {
+  async function updatePackageStatusById(httpRequest) {
+    try {
+      const { userId } = httpRequest.pathParams;
+      const { packageId } = httpRequest.queryParams;
+      const { scanStatus } = httpRequest.body;
+
+      const result = await packageList.updatePackageStatusById(userId, packageId, scanStatus).catch((error) => {
+        throw customException(error.message);
+      });
+
+      if (result) {
+        return objectHandler({
+          status: HttpResponseType.SUCCESS,
+          message: `Packages status for package Id: '${packageId}' updated successful`,
+        });
+      }
+
+      throw customException(
+        `Package details for package Id '${packageId}' is not found`,
+        HttpResponseType.NOT_FOUND,
+      );
+    } catch (error) {
+      const { code, message } = error;
+      return objectHandler({ code, message });
+    }
+  }
+
+  async function updatePackageStatusByBarcode(httpRequest) {
     try {
       const { userId } = httpRequest.pathParams;
       const { barcode } = httpRequest.queryParams;
       const { scanStatus } = httpRequest.body;
 
-      const result = await packageList.updatePackageStatus(userId, barcode, scanStatus).catch((error) => {
+      const result = await packageList.updatePackageStatusByBarcode(userId, barcode, scanStatus).catch((error) => {
         throw customException(error.message);
       });
 
@@ -118,8 +138,15 @@ export default function makePackageEndPointHandler({ packageList }) {
         return addPackages(httpRequest);
       case HttpMethod.PUT:
         if (httpRequest.pathParams && httpRequest.pathParams.userId) {
-          return (httpRequest.queryParams && httpRequest.queryParams.barcode) ?
-            updatePackageStatus(httpRequest) : defaultRouteHandler();
+          if (httpRequest.queryParams && httpRequest.queryParams.packageId) {
+            return updatePackageStatusById(httpRequest);
+          }
+
+          if (httpRequest.queryParams && httpRequest.queryParams.barcode) {
+            return updatePackageStatusByBarcode(httpRequest);
+          }
+
+          return defaultRouteHandler();
         }
         return defaultRouteHandler()
       case HttpMethod.DELETE:
@@ -129,8 +156,11 @@ export default function makePackageEndPointHandler({ packageList }) {
         return defaultRouteHandler();
       case HttpMethod.GET:
         if (httpRequest.pathParams && httpRequest.pathParams.userId) {
-          return (httpRequest.queryParams && httpRequest.queryParams.barcode)
-            ? getPackage(httpRequest) : getAllPackages(httpRequest);
+          if (httpRequest.queryParams && httpRequest.queryParams.barcode) {
+            return getPackage(httpRequest);
+          }
+
+          return getAllPackages(httpRequest)
         }
         return defaultRouteHandler();
       default:
