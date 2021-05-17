@@ -10,9 +10,9 @@ const config = {
   version,
   environment: EnvironmentType.PRODUCTION, // PRODUCTION, DEVELOPMENT
   database: {
-    prodUri: 'package-sorter.i2bqm.mongodb.net',
+    prodUri: 'redvansortingcluster.i2bqm.mongodb.net',
     devUri: 'mongodb://127.0.0.1:27017',
-    name: 'package-sorter',
+    name: 'rvsort-data',
     user: 'admin',
     credentials: process.env.DB_CREDENTIALS,
   },
