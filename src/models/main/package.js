@@ -11,7 +11,7 @@ const packageSchema = new PackageSchema({
     type: String,
     required: true,
   },
-  barcode: {
+  orderId: {
     type: String,
     default: '',
   },
@@ -20,15 +20,15 @@ const packageSchema = new PackageSchema({
     default: 'Pending',
     enum: ['Pending', 'Complete'],
   },
-  lastScan: {
+  driver: {
     type: String,
     default: '',
   },
-  seqNo: {
+  stopNumber: {
     type: String,
     default: '',
   },
-  nameAndAddress: {
+  address: {
     type: String,
     default: '',
   },
