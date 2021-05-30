@@ -1,6 +1,6 @@
 {
   "name": "package-sorter-backend",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Backbone for scan barcodes on packages and instantly know specific package detail more effectively.",
   "main": "dist/index.js",
   "scripts": {

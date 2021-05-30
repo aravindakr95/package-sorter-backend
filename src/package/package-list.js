@@ -5,8 +5,8 @@ export default function makePackageList() {
     return Package.insertMany(data);
   }
 
-  function findPackageByBarcode(userId, barcode) {
-    return Package.findOne({ userId, barcode });
+  function findPackageByBarcode(userId, orderId) {
+    return Package.findOne({ userId, orderId });
   }
 
   function findAllPackages(userId) {
@@ -17,8 +17,8 @@ export default function makePackageList() {
     return Package.findOneAndUpdate({ userId, _id }, { scanStatus });
   }
 
-  function updatePackageStatusByBarcode(userId, barcode, scanStatus) {
-    return Package.findOneAndUpdate({ userId, barcode }, { scanStatus });
+  function updatePackageStatusByBarcode(userId, orderId, scanStatus) {
+    return Package.findOneAndUpdate({ userId, orderId }, { scanStatus });
   }
 
   function deleteAllPackages(userId) {

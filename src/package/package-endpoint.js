@@ -26,16 +26,16 @@ export default function makePackageEndPointHandler({ packageList }) {
 
   async function getPackage(httpRequest) {
     try {
-      const { barcode } = httpRequest.queryParams;
+      const { orderId } = httpRequest.queryParams;
       const { userId } = httpRequest.pathParams;
-      const packageDetails = await packageList.findPackageByBarcode(userId, barcode).catch((error) => {
+      const packageDetails = await packageList.findPackageByBarcode(userId, orderId).catch((error) => {
         throw customException(error.message);
       });
 
       return objectHandler({
         status: HttpResponseType.SUCCESS,
         data: packageDetails,
-        message: `Package ${barcode} details retrieval successful`,
+        message: `Package ${orderId} details retrieval successful`,
       });
     } catch (error) {
       const { code, message } = error;
@@ -91,22 +91,22 @@ export default function makePackageEndPointHandler({ packageList }) {
   async function updatePackageStatusByBarcode(httpRequest) {
     try {
       const { userId } = httpRequest.pathParams;
-      const { barcode } = httpRequest.queryParams;
+      const { orderId } = httpRequest.queryParams;
       const { scanStatus } = httpRequest.body;
 
-      const result = await packageList.updatePackageStatusByBarcode(userId, barcode, scanStatus).catch((error) => {
+      const result = await packageList.updatePackageStatusByBarcode(userId, orderId, scanStatus).catch((error) => {
         throw customException(error.message);
       });
 
       if (result) {
         return objectHandler({
           status: HttpResponseType.SUCCESS,
-          message: `Packages status for barcode Id: '${barcode}' updated successful`,
+          message: `Packages status for barcode Id: '${orderId}' updated successful`,
         });
       }
 
       throw customException(
-        `Package details for barcode Id '${barcode}' is not found`,
+        `Package details for barcode Id '${orderId}' is not found`,
         HttpResponseType.NOT_FOUND,
       );
     } catch (error) {
@@ -142,7 +142,7 @@ export default function makePackageEndPointHandler({ packageList }) {
             return updatePackageStatusById(httpRequest);
           }
 
-          if (httpRequest.queryParams && httpRequest.queryParams.barcode) {
+          if (httpRequest.queryParams && httpRequest.queryParams.orderId) {
             return updatePackageStatusByBarcode(httpRequest);
           }
 
@@ -156,7 +156,7 @@ export default function makePackageEndPointHandler({ packageList }) {
         return defaultRouteHandler();
       case HttpMethod.GET:
         if (httpRequest.pathParams && httpRequest.pathParams.userId) {
-          if (httpRequest.queryParams && httpRequest.queryParams.barcode) {
+          if (httpRequest.queryParams && httpRequest.queryParams.orderId) {
             return getPackage(httpRequest);
           }
 
