@@ -19,7 +19,7 @@ const app = express();
 initializeDB();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '5mb' }));
 app.use(morgan('combined', { stream: loglevel.stream }));
 
 app.use('/v1/api/auth', authRouter);
