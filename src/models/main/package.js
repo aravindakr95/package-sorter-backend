@@ -15,6 +15,10 @@ const packageSchema = new PackageSchema({
     type: String,
     default: '',
   },
+  routeDate: {
+    type: String,
+    default: '',
+  },
   scanStatus: {
     type: String,
     default: 'Pending',
