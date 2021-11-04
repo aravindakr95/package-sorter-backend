@@ -9,6 +9,7 @@ dotenv.config();
 const config = {
   version,
   environment: EnvironmentType.PRODUCTION, // PRODUCTION, DEVELOPMENT
+  generateToken: process.env.GENERATE_TOKEN,
   database: {
     prodUri: 'redvansortingcluster.i2bqm.mongodb.net',
     devUri: 'mongodb://127.0.0.1:27017',

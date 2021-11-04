@@ -148,7 +148,7 @@ export default function makePackageEndPointHandler({ packageList }) {
 
           return defaultRouteHandler();
         }
-        return defaultRouteHandler()
+        return defaultRouteHandler();
       case HttpMethod.DELETE:
         if (httpRequest.pathParams && httpRequest.pathParams.userId) {
           return deletePackages(httpRequest);
@@ -160,7 +160,7 @@ export default function makePackageEndPointHandler({ packageList }) {
             return getPackage(httpRequest);
           }
 
-          return getAllPackages(httpRequest)
+          return getAllPackages(httpRequest);
         }
         return defaultRouteHandler();
       default:

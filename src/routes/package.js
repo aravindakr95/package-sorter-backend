@@ -8,26 +8,12 @@ const packageRouter = express.Router();
 
 packageRouter.post('/upload',
   authenticateJWT,
-  (req, res) => {
-    packageController(req, res);
-  });
+  packageController);
 
-packageRouter.get('/:userId',
-  authenticateJWT,
-  (req, res) => {
-    packageController(req, res);
-  });
+packageRouter.get('/:userId', authenticateJWT);
 
-packageRouter.put('/:userId',
-  authenticateJWT,
-  (req, res) => {
-    packageController(req, res);
-  });
+packageRouter.put('/:userId', authenticateJWT);
 
-packageRouter.delete('/:userId/delete',
-  authenticateJWT,
-  (req, res) => {
-    packageController(req, res);
-  });
+packageRouter.delete('/:userId/delete', authenticateJWT);
 
 export default packageRouter;

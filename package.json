@@ -1,6 +1,6 @@
 {
   "name": "package-sorter-backend",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Backbone for scan barcodes on packages and instantly know specific package detail more effectively.",
   "main": "dist/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-validator": "^6.12.0",
+    "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.14",
     "morgan": "^1.10.0",
@@ -46,13 +46,13 @@
     "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.5",
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.23.4",
-    "nodemon": "^2.0.7"
+    "eslint-plugin-import": "^2.25.2",
+    "nodemon": "^2.0.14"
   },
   "engines": {
     "node": "14.16.0",
