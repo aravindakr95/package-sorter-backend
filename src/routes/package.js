@@ -10,10 +10,16 @@ packageRouter.post('/upload',
   authenticateJWT,
   packageController);
 
-packageRouter.get('/:userId', authenticateJWT);
+packageRouter.get('/:userId',
+  authenticateJWT,
+  packageController);
 
-packageRouter.put('/:userId', authenticateJWT);
+packageRouter.put('/:userId',
+  authenticateJWT,
+  packageController);
 
-packageRouter.delete('/:userId/delete', authenticateJWT);
+packageRouter.delete('/:userId/delete',
+  authenticateJWT,
+  packageController);
 
 export default packageRouter;
