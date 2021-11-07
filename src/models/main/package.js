@@ -2,10 +2,12 @@ import { Schema, model } from 'mongoose';
 
 const PackageSchema = Schema;
 
+const timestamp = Date.now();
+
 const packageSchema = new PackageSchema({
   timestamp: {
     type: Number,
-    default: Date.now,
+    default: timestamp,
   },
   userId: {
     type: String,
@@ -17,7 +19,7 @@ const packageSchema = new PackageSchema({
   },
   routeDate: {
     type: String,
-    default: '',
+    default: new Date(timestamp).toLocaleDateString(),
   },
   scanStatus: {
     type: String,
