@@ -38,6 +38,14 @@ const packageSchema = new PackageSchema({
     type: String,
     default: '',
   },
+  longitude: {
+    type: String,
+    default: '',
+  },
+  latitude: {
+    type: String,
+    default: '',
+  },
 }, { versionKey: false });
 
 const Package = model('Package', packageSchema, 'packages');

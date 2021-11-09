@@ -1,6 +1,6 @@
 {
   "name": "package-sorter-backend",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Backbone for scan barcodes on packages and instantly know specific package detail more effectively.",
   "main": "dist/index.js",
   "scripts": {
@@ -39,6 +39,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^5.12.14",
     "morgan": "^1.10.0",
     "rimraf": "^3.0.2",
