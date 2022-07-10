@@ -8,7 +8,7 @@ import HttpMethod from '../enums/http/http-method';
 
 export default function makePackageEndPointHandler({ packageList, userList }) {
   async function isActivatedUser(userId) {
-    const isValid = await userList.findUserById({ userId });
+    const isValid = await userList.findUserIsExists({ _id: userId });
     return Boolean(isValid);
   }
 
