@@ -8,14 +8,14 @@ import HttpMethod from '../enums/http/http-method';
 
 export default function makePackageEndPointHandler({ packageList, userList }) {
   async function isActivatedUser(userId) {
-    const isValid = await userList.findUserById(userId);
-    return !!isValid;
+    const isValid = await userList.findUserById({ userId });
+    return Boolean(isValid);
   }
 
   async function addPackages(httpRequest) {
     try {
       const packages = httpRequest.body;
-      const isValid = isActivatedUser(packages.userId);
+      const isValid = await isActivatedUser(packages.userId);
 
       if (isValid) {
         await packageList.insertPackages(packages).catch((error) => {
@@ -43,7 +43,7 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
       const { orderId } = httpRequest.queryParams;
       const { userId } = httpRequest.pathParams;
 
-      const isValid = isActivatedUser(userId);
+      const isValid = await isActivatedUser(userId);
 
       if (userId && isValid) {
         const packageDetails = await packageList
@@ -71,7 +71,7 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
   async function getAllPackages(httpRequest) {
     try {
       const { userId } = httpRequest.pathParams;
-      const isValid = isActivatedUser(userId);
+      const isValid = await isActivatedUser(userId);
 
       if (isValid) {
         const packageDetails = await packageList.findAllPackages(userId).catch((error) => {
@@ -101,7 +101,7 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
       const { packageId } = httpRequest.queryParams;
       const { scanStatus } = httpRequest.body;
 
-      const isValid = isActivatedUser(userId);
+      const isValid = await isActivatedUser(userId);
 
       if (isValid) {
         const result = await packageList
@@ -115,11 +115,16 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
             message: `Packages status for package Id: '${packageId}' updated successful`,
           });
         }
+
+        throw customException(
+          `Package details for package Id '${packageId}' is not found`,
+          HttpResponseType.NOT_FOUND,
+        );
       }
 
       throw customException(
-        `Package details for package Id '${packageId}' is not found or user deactivated`,
-        HttpResponseType.NOT_FOUND,
+        'User is deactivated, contact admin for more details',
+        HttpResponseType.FORBIDDEN,
       );
     } catch (error) {
       const { code, message } = error;
@@ -133,21 +138,30 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
       const { orderId } = httpRequest.queryParams;
       const { scanStatus } = httpRequest.body;
 
-      const result = await packageList
-        .updatePackageStatusByBarcode(userId, orderId, scanStatus).catch((error) => {
-          throw customException(error.message);
-        });
+      const isValid = await isActivatedUser(userId);
 
-      if (result) {
-        return objectHandler({
-          status: HttpResponseType.SUCCESS,
-          message: `Packages status for barcode Id: '${orderId}' updated successful`,
-        });
+      if (isValid) {
+        const result = await packageList
+          .updatePackageStatusByBarcode(userId, orderId, scanStatus).catch((error) => {
+            throw customException(error.message);
+          });
+
+        if (result) {
+          return objectHandler({
+            status: HttpResponseType.SUCCESS,
+            message: `Packages status for barcode Id: '${orderId}' updated successful`,
+          });
+        }
+
+        throw customException(
+          `Package details for barcode Id '${orderId}' is not found`,
+          HttpResponseType.NOT_FOUND,
+        );
       }
 
       throw customException(
-        `Package details for barcode Id '${orderId}' is not found`,
-        HttpResponseType.NOT_FOUND,
+        'User is deactivated, contact admin for more details',
+        HttpResponseType.FORBIDDEN,
       );
     } catch (error) {
       const { code, message } = error;
@@ -158,14 +172,23 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
   async function deletePackages(httpRequest) {
     try {
       const { userId } = httpRequest.pathParams;
-      await packageList.deleteAllPackages(userId).catch((error) => {
-        throw customException(error.message);
-      });
+      const isValid = await isActivatedUser(userId);
 
-      return objectHandler({
-        status: HttpResponseType.SUCCESS,
-        message: 'Packages removal successful',
-      });
+      if (isValid) {
+        await packageList.deleteAllPackages(userId).catch((error) => {
+          throw customException(error.message);
+        });
+
+        return objectHandler({
+          status: HttpResponseType.SUCCESS,
+          message: 'Packages removal successful',
+        });
+      }
+
+      throw customException(
+        'User is deactivated, contact admin for more details',
+        HttpResponseType.FORBIDDEN,
+      );
     } catch (error) {
       const { code, message } = error;
       return objectHandler({ code, message });
