@@ -15,9 +15,7 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
   async function addPackages(httpRequest) {
     try {
       const packages = httpRequest.body;
-      const isValid = await isActivatedUser(packages.userId);
 
-      if (isValid) {
         await packageList.insertPackages(packages).catch((error) => {
           throw customException(error.message);
         });
@@ -26,12 +24,6 @@ export default function makePackageEndPointHandler({ packageList, userList }) {
           status: HttpResponseType.SUCCESS,
           message: 'Package details added successful',
         });
-      }
-
-      throw customException(
-        'User is deactivated, contact admin for more details',
-        HttpResponseType.FORBIDDEN,
-      );
     } catch (error) {
       const { code, message } = error;
       return objectHandler({ code, message });
