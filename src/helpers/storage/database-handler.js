@@ -9,7 +9,7 @@ export default function initializeDB() {
   loglevel.info('[storage][databaseHandler]: Start');
   let uri = null;
 
-  if (config.environment === EnvironmentType.PRODUCTION) {
+  if (config.environment === EnvironmentType.DEVELOPMENT) {
     uri = `mongodb+srv://${config.database.user}:${config.database.credentials}`
         + `@${config.database.prodUri}/${config.database.name}?tls=true&authSource=admin`;
   } else {
