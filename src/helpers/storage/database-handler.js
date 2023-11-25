@@ -13,7 +13,7 @@ export default function initializeDB() {
     uri = `mongodb+srv://${config.database.user}:${config.database.credentials}`
         + `@${config.database.prodUri}/${config.database.name}?tls=true&authSource=admin`;
   } else {
-    uri = `${config.database.devUri}/${config.database.name}?retryWrites=true&w=majority`;
+    uri = `${config.database.devUri}/${config.database.name}?authSource=admin`;
   }
 
   connect(uri, {
