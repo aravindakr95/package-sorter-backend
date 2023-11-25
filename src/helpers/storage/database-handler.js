@@ -11,9 +11,10 @@ export default function initializeDB() {
 
   if (config.environment === EnvironmentType.PRODUCTION) {
     uri = `mongodb+srv://${config.database.user}:${config.database.credentials}`
-        + `@${config.database.prodUri}/${config.database.name}?tls=true&authSource=admin`;
+        + `@${config.database.prodUri}/${config.database.name}?retryWrites=true&w=majority`;
+    + `@${config.database.prodUri}/${config.database.name}?retryWrites=true&w=majority`;
   } else {
-    uri = `${config.database.devUri}/${config.database.name}?authSource=admin`;
+    uri = `${config.database.devUri}/${config.database.name}?retryWrites=true&w=majority`;
   }
 
   connect(uri, {
@@ -30,3 +31,4 @@ export default function initializeDB() {
     process.exit(1);
   });
 }
+
