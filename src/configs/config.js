@@ -8,13 +8,13 @@ dotenv.config();
 
 const config = {
   version,
-  environment: EnvironmentType.PRODUCTION, // PRODUCTION, DEVELOPMENT
+  environment: EnvironmentType.DEVELOPMENT, // PRODUCTION, DEVELOPMENT
   generateToken: process.env.GENERATE_TOKEN,
   database: {
-    prodUri: 'redvansortingcluster.i2bqm.mongodb.net',
+    prodUri: 'db-mongodb-nyc3-01114-63cc4f90.mongo.ondigitalocean.com',
     devUri: 'mongodb://127.0.0.1:27017',
     name: 'rvsort-data',
-    user: 'admin',
+    user: 'aravindar',
     credentials: process.env.DB_CREDENTIALS,
   },
   authentication: {
